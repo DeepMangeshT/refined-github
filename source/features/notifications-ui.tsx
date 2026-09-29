@@ -97,8 +97,9 @@ function init(signal: AbortSignal): void {
 	observe('.notification-sort-by', compactDropdown, {signal});
 	observe('.js-notifications-mark-selected-actions details.dropdown', unwrapActions, {signal});
 
-	// Grouping is only available on the Inbox tab
-	if (!new URLSearchParams(location.search).get('query')) {
+	// Grouping is available on the Inbox tab and the is:unread view
+	const query = new URLSearchParams(location.search).get('query');
+	if (!query || query === 'is:unread') {
 		observe('.notification-group-by', replaceDropdown, {signal});
 	}
 }
@@ -116,5 +117,6 @@ void features.add(import.meta.url, {
 Test URLs:
 
 - https://github.com/notifications
+- https://github.com/notifications?query=is%3Aunread
 
 */
